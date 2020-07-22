@@ -3,12 +3,21 @@ from github import Github
 
 from longhorn_github_bot.config import get_config
 
+import logging
+
 app = Flask(__name__)
 
 config = get_config()
+FLASK_LOGLEVEL = config('flask_loglevel')
 GITHUB_OWNER = config('github_owner')
 GITHUB_REPOSITORY = config('github_repository')
 ZENHUB_PIPELINE = config('zenhub_pipeline')
+
+# From https://docs.python.org/3/howto/logging.html#logging-to-a-file
+numeric_level = getattr(logging, FLASK_LOGLEVEL.upper(), None)
+if not isinstance(numeric_level, int):
+    raise ValueError('invalid log level: %s'.format(FLASK_LOGLEVEL))
+app.logger.setLevel(level=numeric_level)
 
 g = Github(config('github_token'))
 

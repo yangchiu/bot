@@ -1,14 +1,19 @@
 from flask import Flask, render_template, request
+from flask_httpauth import HTTPBasicAuth
 from github import Github
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from longhorn_github_bot.config import get_config
 
 import logging
 
 app = Flask(__name__)
+auth = HTTPBasicAuth()
 
 config = get_config()
 FLASK_LOGLEVEL = config('flask_loglevel')
+FLASK_PASSWORD = generate_password_hash(config('flask_password'))
+FLASK_USERNAME = generate_password_hash(config('flask_username'))
 GITHUB_OWNER = config('github_owner')
 GITHUB_REPOSITORY = config('github_repository')
 ZENHUB_PIPELINE = config('zenhub_pipeline')
@@ -22,7 +27,14 @@ app.logger.setLevel(level=numeric_level)
 g = Github(config('github_token'))
 
 
+@auth.verify_password
+def verify_password(username, password):
+    if check_password_hash(FLASK_USERNAME, username) and check_password_hash(FLASK_PASSWORD, password):
+        return username
+
+
 @app.route('/zenhub', methods=['POST'])
+@auth.login_required
 def zenhub():
     form = request.form
     organization = form.get('organization')

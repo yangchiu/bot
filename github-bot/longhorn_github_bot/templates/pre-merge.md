@@ -10,8 +10,8 @@ The PR is at
 Area
 Issues
 
-* [ ] **If the fix introduces the code for backward compatibility** Has an separate issue been filed with the label `release/obsolete-compatibility`?
-The compatibility issue is filed at
+* [ ] **If labeled: require/LEP** Has the Longhorn Enhancement Proposal PR submitted?
+The LEP PR is at
 
 * [ ] **If labeled: area/ui** Has the UI issue filed or ready to be merged?
 The UI issue/PR is at
@@ -28,3 +28,6 @@ The engine automation PR is at
 
 * [ ] **if labeled: require/manual-test-plan** Has the manual test plan been documented?
 The updated manual test plan is at
+
+* [ ] **If the fix introduces the code for backward compatibility** Has an separate issue been filed with the label `release/obsolete-compatibility`?
+The compatibility issue is filed at

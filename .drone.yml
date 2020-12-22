@@ -1,0 +1,128 @@
+---
+kind: pipeline
+name: longhorn-bot
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: fetch
+  image: alpine/git
+  commands:
+  - git fetch --tags
+
+- name: "build github-bot"
+  image: plugins/docker
+  settings:
+    dry_run: true
+    build_args:
+    - ARCH=amd64
+    custom_dns: 1.1.1.1
+    context: github-bot
+    dockerfile: github-bot/Dockerfile
+    password:
+      from_secret: docker_password
+    repo: longhornio/github-bot
+    tag: "master"
+    username:
+      from_secret: docker_username
+  when:
+    instance:
+    - drone-pr.longhorn.io
+    branch:
+    - master
+    event:
+    - pull_request
+    
+- name: "publish github-bot"
+  image: plugins/docker
+  settings:
+    build_args:
+    - ARCH=amd64
+    custom_dns: 1.1.1.1
+    context: github-bot
+    dockerfile: github-bot/Dockerfile
+    password:
+      from_secret: docker_password
+    repo: longhornio/github-bot
+    tag: "master"
+    username:
+      from_secret: docker_username
+  when:
+    instance:
+    - drone-publish.longhorn.io
+    branch:
+    - master
+    event:
+    - push
+
+volumes:
+- name: socket
+  host:
+    path: /var/run/docker.sock
+
+---
+kind: pipeline
+name: longhorn-bot-
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: fetch
+  image: alpine/git
+  commands:
+  - git fetch --tags
+
+- name: "build github-runner-authorizer"
+  image: plugins/docker
+  settings:
+    dry_run: true
+    build_args:
+    - ARCH=amd64
+    custom_dns: 1.1.1.1
+    context: github-runner-authorizer
+    dockerfile: github-runner-authorizer/Dockerfile
+    password:
+      from_secret: docker_password
+    repo: longhornio/github-runner-authorizer
+    tag: "master"
+    username:
+      from_secret: docker_username
+  when:
+    instance:
+    - drone-pr.longhorn.io
+    branch:
+    - master
+    event:
+    - pull_request
+
+- name: "publish github-runner-authorizer"
+  image: plugins/docker
+  settings:
+    build_args:
+    - ARCH=amd64
+    custom_dns: 1.1.1.1
+    context: github-runner-authorizer
+    dockerfile: github-runner-authorizer/Dockerfile
+    password:
+      from_secret: docker_password
+    repo: longhornio/github-runner-authorizer
+    tag: "master"
+    username:
+      from_secret: docker_username
+  when:
+    instance:
+    - drone-publish.longhorn.io
+    branch:
+    - master
+    event:
+    - push
+
+
+volumes:
+- name: socket
+  host:
+    path: /var/run/docker.sock

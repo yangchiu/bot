@@ -1,10 +1,12 @@
 ## Pre-merged Checklist
+* [ ] Is the reproduce steps/test steps documented?
+
+* [ ] Is there a workaround for the issue? If so, is it documented?
+
 * [ ] Does the PR include the explanation for the fix or the feature?
 
 * [ ] Is the backend code merged (Manager, Engine, Instance Manager, BackupStore etc)?
 The PR is at
-
-* [ ] Is the reproduce steps/test steps documented?
 
 * [ ] Which areas/issues this PR might have potential impacts on?
 Area

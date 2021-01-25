@@ -34,7 +34,7 @@ steps:
     - master
     event:
     - pull_request
-    
+
 - name: "publish github-bot"
   image: plugins/docker
   settings:
@@ -64,7 +64,7 @@ volumes:
 
 ---
 kind: pipeline
-name: longhorn-bot-
+name: longhorn-github-runner-authorizer
 
 platform:
   os: linux
@@ -120,6 +120,40 @@ steps:
     - master
     event:
     - push
+---
+kind: pipeline
+name: deploy-longhorn-bot-images
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: deploy
+  image: alpine:latest
+  commands:
+  - apk update
+  - apk add curl
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - mv ./kubectl /usr/local/bin/kubectl
+  - kubectl rollout restart deployment -n github-bot github-bot --token=${TOKEN} --server=${API_SERVER_ARRD} --insecure-skip-tls-verify
+  - kubectl rollout restart deployment -n github-runner github-runner-authorizer --token=${TOKEN} --server=${API_SERVER_ARRD} --insecure-skip-tls-verify
+  environment:
+    TOKEN:
+        from_secret: token
+    API_SERVER_ARRD:
+        from_secret: api_server_addr
+  when:
+    instance:
+    - drone-publish.longhorn.io
+    branch:
+    - master
+    event:
+    - push
+depends_on:
+- longhorn-bot
+- longhorn-github-runner-authorizer
 
 
 volumes:

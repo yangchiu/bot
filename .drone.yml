@@ -137,8 +137,8 @@ steps:
   - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
   - chmod +x ./kubectl
   - mv ./kubectl /usr/local/bin/kubectl
-  - kubectl rollout restart deployment -n github-bot github-bot --token=${TOKEN} --server=${API_SERVER_ARRD} --insecure-skip-tls-verify
-  - kubectl rollout restart deployment -n github-runner github-runner-authorizer --token=${TOKEN} --server=${API_SERVER_ARRD} --insecure-skip-tls-verify
+  - kubectl rollout restart deployment -n github-bot github-bot --token=$TOKEN --server=$API_SERVER_ARRD --insecure-skip-tls-verify
+  - kubectl rollout restart deployment -n github-runner github-runner-authorizer --token=$TOKEN --server=$API_SERVER_ARRD --insecure-skip-tls-verify
   environment:
     TOKEN:
         from_secret: token

@@ -1,4 +1,4 @@
-## Pre-merged Checklist
+## Pre Ready-For-Testing Checklist
 * [ ] Is the reproduce steps/test steps documented?
 
 * [ ] Is there a workaround for the issue? If so, is it documented?

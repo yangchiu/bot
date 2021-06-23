@@ -8,7 +8,7 @@
 
 * [ ] Does the PR include deployment change (YAML/Chart)? If so, have both YAML file and Chart been updated in the PR?
 
-* [ ] Is the backend code merged (Manager, Engine, Instance Manager, BackupStore etc) (including `backport-needed`)?
+* [ ] Is the backend code merged (Manager, Engine, Instance Manager, BackupStore etc) (including `backport-needed/*`)?
 The PR is at
 
 * [ ] Which areas/issues this PR might have potential impacts on?
@@ -18,17 +18,18 @@ Issues
 * [ ] **If labeled: require/LEP** Has the Longhorn Enhancement Proposal PR submitted?
 The LEP PR is at
 
-* [ ] **If labeled: area/ui** Has the UI issue filed or ready to be merged (including `backport-needed`)?
+* [ ] **If labeled: area/ui** Has the UI issue filed or ready to be merged (including `backport-needed/*`)?
 The UI issue/PR is at
 
-* [ ] **If labeled: require/doc** Has the necessary document PR submitted or merged (including `backport-needed`)?
+* [ ] **If labeled: require/doc** Has the necessary document PR submitted or merged (including `backport-needed/*`)?
 The Doc issue/PR is at
 
-* [ ] **If labeled: require/automation-e2e** Has the end-to-end test plan been merged? Have QAs agreed on the automation test case? (including `backport-needed`)
+* [ ] **If labeled: require/automation-e2e** Has the end-to-end test plan been merged? Have QAs agreed on the automation test case? If only test case skeleton w/o implementation, have you created an implementation issue (including `backport-needed/*`)
 The automation skeleton PR is at
-The automation test case PR is at
+The automation test case PR is at 
+The issue of automation test case implementation is at (please create by [the template](https://github.com/longhorn/longhorn/issues/new?assignees=&labels=area%2Ftest&template=test.md&title=%5BTEST%5D))
 
-* [ ] **If labeled: require/automation-engine** Has the engine integration test been merged (including `backport-needed`)?
+* [ ] **If labeled: require/automation-engine** Has the engine integration test been merged (including `backport-needed/*`)?
 The engine automation PR is at
 
 * [ ] **If labeled: require/manual-test-plan** Has the manual test plan been documented?

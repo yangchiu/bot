@@ -1,14 +1,18 @@
 
 ## Pre Ready-For-Testing Checklist
-* [ ] Is the reproduce steps/test steps documented?
+* [ ] Where is the reproduce steps/test steps documented?
+The reproduce steps/test steps are at:
 
-* [ ] Is there a workaround for the issue? If so, is it documented?
+* [ ] Is there a workaround for the issue? If so, where is it documented?
+The workaround is at:
 
 * [ ] Does the PR include the explanation for the fix or the feature?
 
-* [ ] Does the PR include deployment change (YAML/Chart)? If so, have both YAML file and Chart been updated in the PR?
+* [ ] Does the PR include deployment change (YAML/Chart)? If so, where are the PRs for both YAML file and Chart?
+The PR for the YAML change is at:
+The PR for the chart change is at:
 
-* [ ] Is the backend code merged (Manager, Engine, Instance Manager, BackupStore etc) (including `backport-needed/*`)?
+* [ ] Have the backend code been merged (Manager, Engine, Instance Manager, BackupStore etc) (including `backport-needed/*`)?
 The PR is at
 
 * [ ] Which areas/issues this PR might have potential impacts on?
@@ -22,7 +26,7 @@ The LEP PR is at
 The UI issue/PR is at
 
 * [ ] **If labeled: require/doc** Has the necessary document PR submitted or merged (including `backport-needed/*`)?
-The Doc issue/PR is at
+The documentation issue/PR is at
 
 * [ ] **If labeled: require/automation-e2e** Has the end-to-end test plan been merged? Have QAs agreed on the automation test case? If only test case skeleton w/o implementation, have you created an implementation issue (including `backport-needed/*`)
 The automation skeleton PR is at

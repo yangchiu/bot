@@ -1,0 +1,18 @@
+name: 'Get Milestones'
+description: 'Retrieve milestone object from milestone name'
+inputs:
+  token:
+    description: 'Github token'
+    required: true
+  repository:
+    description: 'Github Repository to be retrieved'
+    required: true
+  milestone_name:
+    description: 'Name of milestone to be retrieved'
+    required: true
+outputs:
+  data:
+    description: 'The retrieved milestone object'
+runs:
+  using: 'node16'
+  main: '../lib/milestone-action.js'

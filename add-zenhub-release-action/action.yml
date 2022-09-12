@@ -1,0 +1,14 @@
+name: 'Add Zenhub Release'
+description: 'Add an issue to Zenhub release. If the realase does not exist, it would be created automatically.'
+inputs:
+  zenhub_token:
+    required: true
+  repo_id:
+    required: true
+  issue_number:
+    required: true
+  release_name:
+    required: true
+runs:
+  using: 'node16'
+  main: 'index.js'

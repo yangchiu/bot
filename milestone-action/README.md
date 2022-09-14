@@ -1,6 +1,6 @@
 # Get milestone javascript action
 
-Get milestone object from milestone name
+Get milestone object from milestone name, if the milestone doesn't exist, it would be created automatically.
 
 ## Inputs
 
@@ -24,7 +24,7 @@ The retrieved milestone object.
 
 ## Example usage
 
-uses: yangchiu/milestone-action@master
+uses: longhorn/bot/milestone-action@master
 with:
   token: ${{ github.token }}
   repository: ${{ github.repository }}

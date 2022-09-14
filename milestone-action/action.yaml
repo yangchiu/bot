@@ -1,5 +1,5 @@
 name: 'Get Milestones'
-description: 'Retrieve milestone object from milestone name'
+description: 'Get milestone object from milestone name, if the milestone doesn't exist, it would be created automatically.'
 inputs:
   token:
     description: 'Github token'

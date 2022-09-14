@@ -31,7 +31,7 @@ steps:
     env:
       GITHUB_TOKEN: ${{ github.token }}
   - name: Add Zenhub Release to Issue
-    uses: yangchiu/add-zenhub-release-action@master
+    uses: longhorn/bot/add-zenhub-release-action@master
     with:
       zenhub_token: ${{ secrets.ZENHUB_TOKEN }}
       repo_id: ${{ fromJSON(steps.repo.outputs.data).id }}

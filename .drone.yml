@@ -24,7 +24,6 @@ steps:
     password:
       from_secret: docker_password
     repo: yangchiu/github-bot
-    tag: "master"
     username:
       from_secret: docker_username
   when:
@@ -46,7 +45,6 @@ steps:
     password:
       from_secret: docker_password
     repo: yangchiu/github-bot
-    tag: "master"
     username:
       from_secret: docker_username
   when:

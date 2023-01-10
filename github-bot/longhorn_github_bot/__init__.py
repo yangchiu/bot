@@ -37,7 +37,9 @@ def verify_password(username, password):
 @app.route('/zenhub', methods=['POST'])
 @auth.login_required
 def zenhub():
+    print('zenhub ok')
     form = request.form
+    print(form)
     organization = form.get('organization')
     repo = form.get('repo')
     if organization != GITHUB_OWNER or repo != GITHUB_REPOSITORY:

@@ -27,6 +27,7 @@ app.logger.setLevel(level=numeric_level)
 g = Github(config('github_token'))
 
 
+
 @auth.verify_password
 def verify_password(username, password):
     if check_password_hash(FLASK_USERNAME, username) and check_password_hash(FLASK_PASSWORD, password):

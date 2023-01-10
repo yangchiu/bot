@@ -29,7 +29,7 @@ steps:
       from_secret: docker_username
   when:
     instance:
-    - longhorn-drone-pr.longhorn.io
+    - longhorn-drone-pr.ci-qa.rancher.space
     branch:
     - custom
     event:
@@ -51,7 +51,7 @@ steps:
       from_secret: docker_username
   when:
     instance:
-    - longhorn-drone-publish.longhorn.io
+    - longhorn-drone-publish.ci-qa.rancher.space
     branch:
     - custom
     event:
@@ -86,7 +86,7 @@ steps:
         from_secret: api_server_addr
   when:
     instance:
-    - longhorn-drone-publish.longhorn.io
+    - longhorn-drone-publish.ci-qa.rancher.space
     branch:
     - custom
     event:

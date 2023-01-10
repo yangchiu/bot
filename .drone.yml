@@ -23,15 +23,15 @@ steps:
     dockerfile: github-bot/Dockerfile
     password:
       from_secret: docker_password
-    repo: longhornio/github-bot
+    repo: yangchiu/github-bot
     tag: "master"
     username:
       from_secret: docker_username
   when:
     instance:
-    - drone-pr.longhorn.io
+    - longhorn-drone-pr.longhorn.io
     branch:
-    - master
+    - custom
     event:
     - pull_request
 
@@ -45,15 +45,15 @@ steps:
     dockerfile: github-bot/Dockerfile
     password:
       from_secret: docker_password
-    repo: longhornio/github-bot
+    repo: yangchiu/github-bot
     tag: "master"
     username:
       from_secret: docker_username
   when:
     instance:
-    - drone-publish.longhorn.io
+    - longhorn-drone-publish.longhorn.io
     branch:
-    - master
+    - custom
     event:
     - push
 
@@ -61,65 +61,6 @@ volumes:
 - name: socket
   host:
     path: /var/run/docker.sock
-
----
-kind: pipeline
-name: longhorn-github-runner-authorizer
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: fetch
-  image: alpine/git
-  commands:
-  - git fetch --tags
-
-- name: "build github-runner-authorizer"
-  image: plugins/docker
-  settings:
-    dry_run: true
-    build_args:
-    - ARCH=amd64
-    custom_dns: 1.1.1.1
-    context: github-runner-authorizer
-    dockerfile: github-runner-authorizer/Dockerfile
-    password:
-      from_secret: docker_password
-    repo: longhornio/github-runner-authorizer
-    tag: "master"
-    username:
-      from_secret: docker_username
-  when:
-    instance:
-    - drone-pr.longhorn.io
-    branch:
-    - master
-    event:
-    - pull_request
-
-- name: "publish github-runner-authorizer"
-  image: plugins/docker
-  settings:
-    build_args:
-    - ARCH=amd64
-    custom_dns: 1.1.1.1
-    context: github-runner-authorizer
-    dockerfile: github-runner-authorizer/Dockerfile
-    password:
-      from_secret: docker_password
-    repo: longhornio/github-runner-authorizer
-    tag: "master"
-    username:
-      from_secret: docker_username
-  when:
-    instance:
-    - drone-publish.longhorn.io
-    branch:
-    - master
-    event:
-    - push
 ---
 kind: pipeline
 name: deploy-longhorn-bot-images
@@ -138,7 +79,6 @@ steps:
   - chmod +x ./kubectl
   - mv ./kubectl /usr/local/bin/kubectl
   - kubectl rollout restart deployment -n github-bot github-bot --token=$TOKEN --server=$API_SERVER_ARRD --insecure-skip-tls-verify
-  - kubectl rollout restart deployment -n github-runner github-runner-authorizer --token=$TOKEN --server=$API_SERVER_ARRD --insecure-skip-tls-verify
   environment:
     TOKEN:
         from_secret: token
@@ -146,14 +86,13 @@ steps:
         from_secret: api_server_addr
   when:
     instance:
-    - drone-publish.longhorn.io
+    - longhorn-drone-publish.longhorn.io
     branch:
-    - master
+    - custom
     event:
     - push
 depends_on:
 - longhorn-bot
-- longhorn-github-runner-authorizer
 
 
 volumes:

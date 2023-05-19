@@ -1,0 +1,40 @@
+name: 'Copy Files And Create Pull Request'
+description: 'Copy files from the current repository to a location in another repository and create a pull request'
+inputs:
+  source:
+    description: 'The file(s) to be moved. Uses the same syntax as the cp command'
+    required: true
+  destination_repo:
+    description: 'The repository to place the file(s) in'
+    required: true
+  destination:
+    description: 'The destination path in the destination repository to place the file in'
+    required: true
+  destination_base_branch:
+    description: 'The branch into which you want the pull request merged. Default is master'
+    required: false
+    default: "master"
+  destination_head_branch:
+    description: 'The branch to create to push the changes and then open the pull request'
+    required: true
+  pull_request_reviewers:
+    description: 'The pull request reviewers'
+    required: false
+  pr_title:
+    description: 'The PR title'
+    required: true
+  commit_msg:
+    description: 'The PR commit message'
+    required: true
+runs:
+  using: 'docker'
+  image: '../lib/copy-files-and-create-pr-action/Dockerfile'
+  args:
+    - ${{ inputs.source }}
+    - ${{ inputs.destination-repo }}
+    - ${{ inputs.destination }}
+    - ${{ inputs.destination-head-branch }}
+    - ${{ inputs.destination-base-branch }}
+    - ${{ inputs.pull-request-reviewers }}
+    - ${{ inputs.pr-title }}
+    - ${{ inputs.commit-msg }}

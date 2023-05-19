@@ -1,0 +1,51 @@
+name: 'Copy Files And Create Pull Request'
+description: 'Copy files from the current repository to a location in another repository and create a pull request'
+inputs:
+  source_folder:
+    description: 'Source folder from origin'
+    required: true
+  destination_repo:
+    description: 'Destination repository'
+    required: true
+  destination_folder:
+    description: 'Destination folder to push the origin folder'
+    required: true
+  destination_head_branch:
+    description: 'The branch to create to push the changes. Cannot be master or main'
+    required: true
+  destination_base_branch:
+    description: 'The branch into which you want your code merged.'
+    required: false
+    default: "master"
+  user_email:
+    description: 'Email for the git commit'
+    required: true
+  user_name:
+    description: 'GitHub username for the commit'
+    required: true
+  pull_request_reviewers:
+    description: 'Pull request reviewers users'
+    required: false
+  pr_title:
+    description: 'The PR title which will be defined in the PR'
+    required: true
+  commit_msg:
+    description: 'The commit message which will be used.'
+    required: true
+runs:
+  using: 'docker'
+  image: '../lib/copy-files-and-create-pr-action/Dockerfile'
+  args:
+    - ${{ inputs.source-folder }}
+    - ${{ inputs.destination-repo }}
+    - ${{ inputs.destination-folder }}
+    - ${{ inputs.destination-head-branch }}
+    - ${{ inputs.destination-base-branch }}
+    - ${{ inputs.user-email }}
+    - ${{ inputs.user-name }}
+    - ${{ inputs.pull-request-reviewers }}
+    - ${{ inputs.pr-title }}
+    - ${{ inputs.commit-msg }}
+branding:
+  icon: 'git-commit'
+  color: 'green'

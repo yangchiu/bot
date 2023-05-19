@@ -1,7 +1,4 @@
-#!/usr/bin/env bash
-
-set -e
-set -x
+set -ex
 
 if [[ -z "$INPUT_SOURCE_FOLDER" ]]; then
   echo "Source folder must be defined"

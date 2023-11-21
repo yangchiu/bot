@@ -1,0 +1,12 @@
+name: 'Filter Organization Members Action'
+description: 'Get list of users belong to a specific organization from an input user list.'
+inputs:
+  token:
+    required: true
+  organization:
+    required: true
+  usernames:
+    required: true
+runs:
+  using: 'node20'
+  main: '../lib/filter-org-members-action.js'

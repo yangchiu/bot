@@ -1,0 +1,15 @@
+name: 'Add Issue To Project'
+description: 'Add an issue to a project'
+inputs:
+  project-url:
+    description: 'project url'
+    required: true
+  issue-node-id:
+    description: 'issue node id'
+    required: true
+  github-token:
+    description: 'the personal access token to be used'
+    required: true
+runs:
+  using: 'node20'
+  main: '../lib/add-to-project-action.js'

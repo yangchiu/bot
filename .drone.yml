@@ -21,12 +21,8 @@ steps:
     custom_dns: 1.1.1.1
     context: github-bot
     dockerfile: github-bot/Dockerfile
-    password:
-      from_secret: docker_password
     repo: longhornio/github-bot
     tag: "master"
-    username:
-      from_secret: docker_username
   when:
     instance:
     - drone-pr.longhorn.io
@@ -85,12 +81,8 @@ steps:
     custom_dns: 1.1.1.1
     context: github-runner-authorizer
     dockerfile: github-runner-authorizer/Dockerfile
-    password:
-      from_secret: docker_password
     repo: longhornio/github-runner-authorizer
     tag: "master"
-    username:
-      from_secret: docker_username
   when:
     instance:
     - drone-pr.longhorn.io

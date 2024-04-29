@@ -1,0 +1,105 @@
+name: build
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+jobs:
+  build-github-bot-image:
+    name: Build github-bot image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # longhornio/github-bot image
+    - name: docker-dry-run
+      uses: docker/build-push-action@v5
+      with:
+        context: github-bot
+        push: false
+        platforms: linux/amd64
+        tags: longhornio/github-bot:master
+        file: github-bot/Dockerfile
+        build-args: |
+          ARCH=amd64
+
+    - name: Login to Docker Hub
+      if: ${{ startsWith(github.ref, 'refs/heads/') }}
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: docker-publish
+      if: ${{ startsWith(github.ref, 'refs/heads/') }}
+      uses: docker/build-push-action@v5
+      with:
+        context: github-bot
+        push: true
+        platforms: linux/amd64
+        tags: longhornio/github-bot:master
+        file: github-bot/Dockerfile
+        build-args: |
+          ARCH=amd64
+
+  build-github-runner-authorizer-image:
+    name: Build github-runner-authorizer image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # longhornio/github-runner-authorizer image
+    - name: docker-dry-run
+      uses: docker/build-push-action@v5
+      with:
+        context: github-runner-authorizer
+        push: false
+        platforms: linux/amd64
+        tags: longhornio/github-runner-authorizer:master
+        file: github-runner-authorizer/Dockerfile
+        build-args: |
+          ARCH=amd64
+
+    - name: Login to Docker Hub
+      if: ${{ startsWith(github.ref, 'refs/heads/') }}
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: docker-publish
+      if: ${{ startsWith(github.ref, 'refs/heads/') }}
+      uses: docker/build-push-action@v5
+      with:
+        context: github-runner-authorizer
+        push: true
+        platforms: linux/amd64
+        tags: longhornio/github-runner-authorizer:master
+        file: github-runner-authorizer/Dockerfile
+        build-args: |
+          ARCH=amd64
+
+  deploy-longhorn-bot-images:
+    name: Deploy Longhorn bot images
+    if: ${{ startsWith(github.ref, 'refs/heads/') }}
+    runs-on: ubuntu-latest
+    container:
+      image: alpine:latest
+    needs:
+    - build-github-bot-image
+    - build-github-runner-authorizer-image
+    steps:
+    - name: Deploy
+      run: |
+        apk update
+        apk add curl
+        curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+        chmod +x ./kubectl
+        mv ./kubectl /usr/local/bin/kubectl
+        kubectl rollout restart deployment -n github-bot github-bot --token=$TOKEN --server=$API_SERVER_ARRD --insecure-skip-tls-verify
+        kubectl rollout restart deployment -n github-runner github-runner-authorizer --token=$TOKEN --server=$API_SERVER_ARRD --insecure-skip-tls-verify
+      env:
+        TOKEN: ${{ secrets.KUBE_TOKEN }}
+        API_SERVER_ARRD: ${{ secrets.KUBE_API_SERVER_ADDR }}

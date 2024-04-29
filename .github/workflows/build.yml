@@ -85,21 +85,19 @@ jobs:
     name: Deploy Longhorn bot images
     if: ${{ startsWith(github.ref, 'refs/heads/') }}
     runs-on: ubuntu-latest
-    container:
-      image: alpine:latest
     needs:
     - build-github-bot-image
     - build-github-runner-authorizer-image
     steps:
-    - name: Deploy
-      run: |
-        apk update
-        apk add curl
-        curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-        chmod +x ./kubectl
-        mv ./kubectl /usr/local/bin/kubectl
-        kubectl rollout restart deployment -n github-bot github-bot --token=$TOKEN --server=$API_SERVER_ARRD --insecure-skip-tls-verify
-        kubectl rollout restart deployment -n github-runner github-runner-authorizer --token=$TOKEN --server=$API_SERVER_ARRD --insecure-skip-tls-verify
+    - name: Rollout restart github-bot
+      uses: actions-hub/kubectl@v1.30.0
       env:
-        TOKEN: ${{ secrets.KUBE_TOKEN }}
-        API_SERVER_ARRD: ${{ secrets.KUBE_API_SERVER_ADDR }}
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      with:
+        args: rollout restart deployment -n github-bot github-bot
+    - name: Rollout restart github-runner github-runner-authorizer
+      uses: actions-hub/kubectl@v1.30.0
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      with:
+        args: rollout restart deployment -n github-runner github-runner-authorizer

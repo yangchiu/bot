@@ -1,4 +1,4 @@
-FROM python:3.8.5-alpine3.12
+FROM python:3.10.14-alpine
 
 COPY requirements.txt /srv
 WORKDIR /srv

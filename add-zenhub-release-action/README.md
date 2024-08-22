@@ -21,7 +21,7 @@ Add an issue to Zenhub release. If the release doesn't exist, it would be create
 **Required** The Zenhub release name to be added/created.
 
 ## Example usage
-
+```
 steps:
   - name: Get Repo Object
     uses: octokit/request-action@v2.x
@@ -37,3 +37,4 @@ steps:
       repo_id: ${{ fromJSON(steps.repo.outputs.data).id }}
       issue_number: ${{ github.event.issue.number }}
       release_name: 1.4.0
+```

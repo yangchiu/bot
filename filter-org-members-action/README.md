@@ -18,6 +18,7 @@ Get list of users belong to a specific organization from an input user list.
 
 ## Example usage
 
+```
 steps:
   - name: Get Longhorn Members
     uses: longhorn/bot/filter-org-members-action@master
@@ -26,3 +27,4 @@ steps:
       token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
       organization: longhorn
       usernames: ${{ github.event.issue.assignees.*.login }}
+```
